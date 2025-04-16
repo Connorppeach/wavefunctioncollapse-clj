@@ -155,3 +155,52 @@
         graphics (.graphics model)]
     {:seed seed
      :image graphics}))
+
+(defn simple-tiled-model-raw
+  "Generate a new image using the Simple Tiled Model.
+
+  ## Positional Arguments
+  `config` Tiles, subset and constraint definitions.  
+  `images` Map of `BufferedImage`'s keyed by their `tilename`.  
+  `width` Output width in number of tiles.  
+  `height` Output height in number of tiles.  
+
+  ## Keyword Arguments
+  `subset` Name of the subset defined in `config` to use.  
+  `periodic` Whether or not the output should be periodic.  
+  `black`  
+  `unique`  
+  `seed` Seed to use for the random generator.  
+  `limit` Maximum number of iterations before finishing."
+  [config
+   images
+   width
+   height
+   & {:keys [subset periodic black unique seed limit]
+      :or {subset nil
+           periodic false
+           black false
+           unique false
+           seed (rand-int Integer/MAX_VALUE)
+           limit 0}}]
+  (s/assert ::config config)
+  (let [{:keys [tilesize tiles neighbors subsets]} config
+        tiles (map stringify-keys tiles)
+        neighbors (map stringify-keys neighbors)
+        subsets (reduce-kv (fn [m k v] (assoc m (name k) (into-array v))) {} subsets)
+        subset (if subset (name subset))
+        model (SimpleTiledModel.
+               tilesize
+               tiles
+               neighbors
+               subsets
+               images
+               subset
+               width
+               height
+               periodic
+               black
+               unique)]
+    {:seed seed
+     :run #(.run model seed limit)
+     :graphics #(.graphics model)}))

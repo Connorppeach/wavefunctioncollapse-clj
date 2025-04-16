@@ -203,4 +203,5 @@
                unique)]
     {:seed seed
      :run #(.run model seed limit)
-     :graphics #(.graphics model)}))
+     :graphics #(.graphics model)
+     :raw model}))

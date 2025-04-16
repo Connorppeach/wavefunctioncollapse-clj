@@ -1,3 +1,3 @@
 {:paths ["src"]
- :deps {{org.clojure/clojure {:mvn/version "1.10.0"}}
-        {com.github.sjcasey21/wavefunctioncollapse {:mvn/version "0.2.2"}}}}
+ :deps {org.clojure/clojure {:mvn/version "1.10.0"}
+        com.github.sjcasey21/wavefunctioncollapse {:mvn/version "0.2.2"}}}
